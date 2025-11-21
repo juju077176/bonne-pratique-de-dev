@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
+const cron = require('node-cron');
 const pool = require('./config/db.config');
 const apiRoutes = require('./backend/routes/api');
 const authRoutes = require('./backend/routes/auth');
+const CleanupService = require('./backend/services/CleanupService');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -41,7 +43,23 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Erreur serveur' });
 });
 
+// Configuration du nettoyage automatique des réservations expirées
+// Exécution tous les jours à 2h du matin
+cron.schedule('0 2 * * *', async () => {
+    try {
+        await CleanupService.performFullCleanup();
+    } catch (error) {
+        console.error('[CRON] Erreur lors du nettoyage automatique:', error);
+    }
+});
+
+// Exécution immédiate au démarrage du serveur
+CleanupService.performFullCleanup()
+    .then(() => console.log('[CLEANUP] Nettoyage initial effectué au démarrage'))
+    .catch(err => console.error('[CLEANUP] Erreur lors du nettoyage initial:', err));
+
 // Démarrer le serveur
 app.listen(port, host, () => {
     console.log(`Serveur en cours d'exécution sur http://${host}:${port}`);
+    console.log(`[CRON] Nettoyage automatique programmé tous les jours à 2h du matin`);
 });

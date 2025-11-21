@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Système de Réservation</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Système de Réservation</div>
+        <div class="nav-buttons">
+            <div id="authButtons">
+                <button id="loginBtn">Connexion</button>
+                <button id="registerBtn">Inscription</button>
+            </div>
+            <div id="userInfo" style="display: none;">
+                <span id="userEmail"></span>
+                <button id="myReservationsBtn">Mes Réservations</button>
+                <button id="logoutBtn">Déconnexion</button>
+            </div>
+            <button id="adminBtn" style="display:none;">Admin</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section id="services-section" class="section">
+            <h2>Nos Services</h2>
+            <div id="services-container" class="grid-container"></div>
+        </section>
+
+        <section id="reservations-section" class="section" style="display: none;">
+            <div class="section-header">
+                <h2>Mes Réservations</h2>
+                <button id="backToServices" class="btn-secondary">Retour aux services</button>
+            </div>
+            <div id="reservations-container" class="list-container"></div>
+        </section>
+    </main>
+
+    <!-- Modal Connexion -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Connexion</h2>
+            <form id="loginForm">
+                <input type="email" placeholder="Email" required>
+                <button type="submit">Se connecter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Inscription -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Inscription</h2>
+            <form id="registerForm">
+                <input type="email" placeholder="Email" required>
+                <button type="submit">S'inscrire</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Réservation -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Réserver un créneau</h2>
+            <form id="bookingForm">
+                <label for="bookingDate">Date :</label>
+                <input type="date" id="bookingDate" required />
+                <label for="timeSlots">Heure :</label>
+                <select id="timeSlots" required>
+                    <option value="">Choisir une date d'abord</option>
+                </select>
+                <button type="submit">Confirmer la réservation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de confirmation d'annulation -->
+    <div id="confirmCancelModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirmation</h2>
+            <p>Voulez-vous vraiment annuler cette réservation ?</p>
+            <div class="modal-buttons">
+                <button id="confirmCancel" class="btn-danger">OK</button>
+                <button id="cancelCancel" class="btn-secondary">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Admin REFAIT -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content admin-modal">
+            <span class="close" id="closeAdminModal">&times;</span>
+            <h2>Panneau Admin</h2>
+            
+            <div class="admin-container">
+                <!-- Colonne gauche: Liste utilisateurs -->
+                <div class="admin-users-section">
+                    <h3>Utilisateurs</h3>
+                    <div id="usersList"></div>
+                </div>
+                
+                <!-- Colonne droite: Détails utilisateur -->
+                <div class="admin-details-section">
+                    <div id="userDetails">
+                        <p>Sélectionnez un utilisateur</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmation de suppression admin -->
+    <div id="confirmDeleteModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirmation</h2>
+            <p>Voulez-vous vraiment supprimer cette réservation ?</p>
+            <div class="modal-buttons">
+                <button id="confirmDelete" class="btn-danger">Supprimer</button>
+                <button id="cancelDelete" class="btn-secondary">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/services.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>
